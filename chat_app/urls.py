@@ -16,9 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView
-
+from chat_application import views
 
 urlpatterns = [
-    url('', TemplateView.as_view(template_name='index.html'), name='index'),
+    url('fetch_group', views.fetch_group, name="fetch_group"),
+    url('sign_in/', views.sign_in, name="sign_in"),
+    url('sign_up/', views.sign_up, name="sign_up"),
+    url('sign_out/', views.sign_out, name="sign_out"),
     url(r'^admin/', admin.site.urls),
+    url('chats/', TemplateView.as_view(template_name='screen.html'), name='screen'),
+    url('', TemplateView.as_view(template_name='index.html'), name='index'),
 ]

@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>UpChat</title>
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
@@ -20,8 +20,16 @@
                 font-family: 'Source Sans Pro';
             }
             .medium-head{
-                font-size: 2rem;
-                color: black;
+                font-size: 0.9rem;
+                cursor: pointer;
+                color: rgb(0, 140, 255);
+                font-weight: 600;
+            }
+            .medium-head:hover{
+                transition: ease-in-out 0.5s;
+                font-size: 1rem;
+                cursor: pointer;
+                color: rgb(0, 140, 255);
                 font-weight: 600;
             }
             .normal-head{
@@ -29,155 +37,70 @@
                 color: black;
                 font-weight: 900;
             }
-            .dp-wrap{
-                height: 100px;
-                width: 100px;
-                border-radius: 50px;
-            }
-            .contact_username{
-                font-size: 1.2rem;
-                color: black;
-                text-align: left;
-                font-weight: 700;
-            }
-            .avatar{
-                vertical-align: middle;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-            }
-            .contacts_css{
-                margin-top: 5px; background-color:rgb(241, 241, 241); border-radius: 10px; padding: 10px;
-                height: 70px;
-                cursor: pointer;
-            }
-            .contacts_css:hover{
-                transition: ease-in-out 0.3s;
-                background-color: darkslateblue !important;  
-            }
-            .contacts_css:hover .contact_username{
-                transition: ease-in-out 0.3s;
-                font-size: 1.4rem !important;
-                color: white !important;    
-            }
-            .header_icon{
-                font-size: 1.8rem;
-                color: black;
-                cursor: pointer;
-            }
-            .fc1{
-                border-radius: 50px;
-                height: 48px;
-            }
-            .send_btn{
-                padding: 10px;
-            }
-            .settings_items{
-                margin: 10px;
-                font-size: 1.1rem; font-weight: 600;
-                cursor: pointer;
-            }
-            .settings_items:hover{
-                color: darkslateblue;
-            }
         </style>
     </head>
     <body>
-        
-        <div class="col-md-12" style="padding: 40px; background-color: darkslateblue;">
-            <div class="col-md-11 mx-auto">
-                <div class="mx-auto">
-                    <div class="row">
-                        <div class="col-md-4" style="max-height: 100%; max-width: 100%;">
-                            <div class="contacts_con" style="height: 100%; padding: 20px; border-radius: 20px; background-color: white;">
-                                <h3 class="normal-head">Contacts</h3>
-                                <hr>
-                                <div class="contacts" style="height: 30rem; overflow-y: scroll; overflow-x:hidden; padding: 5px;">
-                                    <div class="contacts_css col-md-12" onclick="show_msgs(this);">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="dp-wrap">
-                                                    <img class="avatar img-thumbnail" src="{% static 'webdeveloper.png' %}" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9" style="padding: 10px;">
-                                                <h3 class="contact_username">Prince</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="contacts_css col-md-12" onclick="show_msgs(this);">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="dp-wrap">
-                                                    <img class="avatar img-thumbnail" src="{% static 'webdeveloper.png' %}" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9" style="padding: 10px;">
-                                                <h3 class="contact_username">Mohit</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        {% if user.is_authenticated %}
+            <script>
+                $(document).ready(function(){
+                    window.location.replace('{% url "screen" %}');
+                });
+            </script>
+        {% endif %}
+        <div class="col-md-12" style="padding: 40px; background-color: rgb(0, 0, 0); height: 100%;">
+            <div class="col-md-4 mx-auto text-center" style="background-color: white; padding: 40px; border-radius: 20px; margin-top: 100px;">
+                <div class="mx-auto text-center">
+                    <form action="{% url 'sign_in' %}" class="login_form form" method="POST">{% csrf_token %}
+                        <div style="padding-bottom: 30px;"><span class="normal-head">SIGN IN</span>
+                        {% if e %}
+                            <p class="error" style="color: red; font-weight: 700;">{{e}}</p>
+                        {% endif %}
                         </div>
-                        <div class="col-md-8" style="max-height: 100%; max-width: 100%;">
-                            <div class="chats" style="height: 100%; padding: 20px; border-radius: 20px; background-color: white;">
-                                <header class="header" style="padding: 0px 15px 0px 15px">
-                                    <div class="row">
-                                        <div class="col-md-6 mr-auto text-left">
-                                            <h3 class="medium-head">Username</h3>
-                                        </div>
-                                        <div class="col-md-6 ml-auto text-right" style="padding: 5px;">
-                                            <i onclick="show_settings();" class="header_icon fas fa-cog"></i>
-                                            <i class="header_icon "></i>
-                                            <i class="header_icon"></i>
-                                        </div>
-                                    </div>
-                                </header>
-                                <hr>
-                                <div class="messages" style="padding: 5px; overflow-y: scroll; height: 21.5rem;">
-                                    
-                                </div>
-                                <hr>
-                                <footer class="footer" style="padding: 10px 10px 0px 10px;">
-                                    <form class="form col-md-12">
-                                        <div class="row">
-                                            <div class="form-group col-md-11">
-                                                <input type="text" class="form-control fc1">
-                                            </div>
-                                            <div class="send_btn col-md-1"><i class="far fa-paper-plane header_icon" style="color: darkslateblue;"></i></div>
-                                        </div>
-                                    </form>
-                                </footer>
-                            </div>
+                        <div class="form-group">
+                            <input type="text" required class="form-control" name="username" placeholder="Username">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <input type="password" required class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button><Br><Br>
+                        <span class="medium-head create_acc" onclick="sign_up();">Create an account Here</span>
+                    </form>
+                    <form action="{% url 'sign_up' %}" class="signup_form form" method="POST" style="display: none;">{% csrf_token %}
+                        <div style="padding-bottom: 30px;"><span class="normal-head">SIGN UP</span>
+                        {% if e %}
+                            <p class="error" style="color: red; font-weight: 700;">{{e}}</p>
+                        {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required class="form-control" name="fname" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required class="form-control" name="lname" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required class="form-control" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" required class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button><br><Br>
+                        <span class="medium-head create_acc" onclick="sign_in();">Already have an account</span>
+                    </form>
                 </div>
-            </div>
-        </div>
-        <div class="settings" style="position: absolute; display: none; top:90; right:170; width: 150px; background-color: white; border-radius: 10px; border: 1.4px solid darkslateblue;">
-            <div class="set" style="padding: 10px;">
-                <span class="settings_items">Profile</span><br>
-                <span class="settings_items">Block</span><br>
-                <span class="settings_items">Delete</span><br>
             </div>
         </div>
     </body>
         <script>
-            function show_settings(){
-                if($('.settings').is(":visible")){
-                    $('.settings').fadeOut();
-                }
-                else{
-                    $('.settings').fadeIn();
-                }
+            var t, u;
+            function sign_in(){
+                $('.signup_form').fadeOut();
+                $('.login_form').show();
+                $('.error').html(' ');
             }
-            function show_msgs(ele){
-                $('.contacts_css').css('background-color', 'rgb(241, 241, 241)');
-                $('.contact_username').css({'color': 'black', 'font-size': '1.2rem'});
-
-                $(ele).css('background-color', 'darkslateblue');
-                $(ele).find('.contact_username').css({'color': 'white', 'font-size': '1.4rem'});
+            function sign_up(){
+                $('.login_form').fadeOut();
+                $('.signup_form').show();
+                $('.error').html(' ');
             }
         </script>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
